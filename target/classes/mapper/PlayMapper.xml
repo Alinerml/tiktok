@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiktok.mapper.PlayMapper">
+    <insert id="InsertContribute">
+                INSERT INTO playinfo (`play_url`, `cover_url`,`favorite_count`, `comment_count`,`is_favorite`, `title`, `data`)VALUES (#{play_url}, #{cover_url}, 0, 0, 0, #{title}, #{data} );
+    </insert>
+
+    <select id="SelectById" resultType="com.tiktok.bean.PlayInfo">
+        select * from playinfo where id=#{id}
+    </select>
+</mapper>

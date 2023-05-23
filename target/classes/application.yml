@@ -1,0 +1,27 @@
+#file:
+#  upload:
+#    path: C:\file1
+#logging:
+#  level:
+#    com:
+#      example: DEBUG
+#    org:
+#      springframework: INFO
+#mybatis:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#server:
+#  port: 8080
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    password: 250088
+#    url: jdbc:mysql://localhost:3306/tiktok?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+#    username: root
+#  servlet:
+#    multipart:
+#      enabled: true
+#      max-file-size: 2000MB
+#      max-request-size: 20000MB
+#mybatis-plus:
+#  mapper-locations: classpath*:/mapper/**/*.xml

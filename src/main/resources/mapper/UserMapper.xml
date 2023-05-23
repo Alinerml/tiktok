@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tiktok.mapper.UserMapper">
+
+
+    <select id="selectByUsername" resultType="com.tiktok.bean.UserInfo">
+        select * from userinfo where username = #{username}
+    </select>
+
+    <select id="selectByIdFromUserInfo" resultType="com.tiktok.bean.UserInfo">
+        select * from userinfo where id = #{userid}
+    </select>
+
+    <select id="selectByIdFromUserFile" resultType="com.tiktok.bean.UserFile">
+        select * from userfile where id = #{userid}
+    </select>
+
+    <select id="selectByIdFromUserFollow" resultType="com.tiktok.bean.UserFollow">
+        select * from userfollow where id = #{userid}
+    </select>
+
+    <select id="selectByIdFromUserData" resultType="com.tiktok.bean.UserData">
+        select * from userdata where id = #{userid}
+    </select>
+</mapper>
