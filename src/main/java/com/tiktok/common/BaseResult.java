@@ -1,13 +1,8 @@
 package com.tiktok.common;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tiktok.contants.ResponseConstants;
-import com.tiktok.controller.UserController;
-import lombok.AllArgsConstructor;
+import com.tiktok.common.contants.ResponseConstants;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
 @Data

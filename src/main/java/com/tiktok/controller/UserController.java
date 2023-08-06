@@ -1,87 +1,76 @@
 package com.tiktok.controller;
 
-import cn.hutool.crypto.digest.DigestUtil;
-import com.tiktok.bean.UserData;
-import com.tiktok.bean.UserFile;
-import com.tiktok.bean.UserFollow;
-import com.tiktok.bean.UserInfo;
-import com.tiktok.common.BaseResult;
-import com.tiktok.mapper.UserMapper;
+import com.tiktok.bean.User;
+import com.tiktok.bean.Video;
+import com.tiktok.bean.dto.UserInfoDto;
+import com.tiktok.common.api.vo.Result;
+import com.tiktok.service.IUserInfoService;
 import com.tiktok.service.IUserService;
-import com.tiktok.utils.JwtUtil;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.annotations.Api;
 
-import java.util.HashMap;
-
+ /**
+ * @Description: user
+ * @Author: jeecg-boot
+ * @Date:   2023-08-03
+ * @Version: V1.0
+ */
+@Api(tags="user")
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private IUserService userService;
+	@Autowired
+	private IUserService userService;
 
-    //    private RegisterResult result;
-    private static final String SALT = "JYU";
+	 @Autowired
+	 private IUserInfoService userInfoService;
 
-    /**
-     * 注册
-     *
-     * @param username
-     * @param password
-     * @return
-     */
-    @PostMapping("/register/")
-    public BaseResult register(@RequestParam String username, @RequestParam String password) {
-        try {
-            Integer userId = userService.register(username, password);
-//            result.setUserId(userId);
-//            result.setStatusMessage(null);
-//            result.setStatusCode(0);
-//            result.setToken(JwtUtil.create());
-            return BaseResult.ok().put("user_id", userId).put("token", JwtUtil.create());
+	 @ApiOperation(value="用户信息", notes="用户信息")
+	 @GetMapping()
+	 public Result<User> queryById(@RequestParam(name="user_id ",required=true) String user_id) {
+		 User user = userService.getById(user_id);
+		 if(user==null) {
+			 return Result.error("未找到对应数据");
 
-        } catch (Exception e) {
-//            result.setStatusCode(-1);
-//            result.setStatusMessage(e.getMessage());
-            return BaseResult.error(e.getMessage());
-        }
-    }
+		 }
+		 return Result.OK(user);
+	 }
 
-    /**
-     * 登录
-     *
-     * @param username
-     * @param password
-     * @return
-     */
-    @GetMapping("/login/")
-    public BaseResult login(@RequestParam String username, @RequestParam String password) {
-        try {
-//            Integer userId = userService.login(username, password);
-//            return BaseResult.ok().put("userId", userId).put("token", JwtUtil.create());
-            return BaseResult.ok().put("username",username).put("password",password);
-        } catch (Exception e) {
-            return BaseResult.error(403, e.getMessage());
-        }
-    }
+	 /**
+	  * @description:  添加
+	  */
+	 @ApiOperation(value="测试-用户user添加", notes="测试-用户添加")
+//	@RequiresPermissions("goods:goods_goods:add")
+	 @PostMapping(value = "/add")
+	 public Result<String> add(@RequestBody User user) {
+		 userService.save(user);
+		 return Result.OK("添加成功！");
+	 }
 
-    /**
-     * 用户信息
-     * @param user_id
-     * @param token
-     * @return
-     */
-    @GetMapping("/") //get请求:不会修改、增加数据，不会影响资源的内容
-    public BaseResult getUserInfo(@RequestParam Integer user_id, @RequestParam String token){
-        HashMap<String, Object> user = userService.getUserInfo(user_id, token);
+	 /**
+	  * @description:  用户注册
+	  */
+	 @ApiOperation(value="用户注册", notes="用户注册")
+//	@RequiresPermissions("goods:goods_goods:add")
+	 @PostMapping(value = "/register")
+	 public Result<String> register(@RequestBody UserInfoDto userInfoDto) {
+		 String id = userInfoService.register(userInfoDto);
+		 return Result.OK("注册成功！",id);
+	 }
 
-        try {
-            return BaseResult.ok().put("user",user);
-        } catch (Exception e) {
-            return BaseResult.error(403, e.getMessage());
-        }
-    }
-
+	 /**
+	  * @description:  用户登录
+	  */
+	 @ApiOperation(value="用户注册", notes="用户注册")
+//	@RequiresPermissions("goods:goods_goods:add")
+	 @PostMapping(value = "/login")
+	 public Result<String> login(@RequestBody UserInfoDto userInfoDto) {
+		 String id = userInfoService.login(userInfoDto);
+		 return Result.OK("登录成功！",id);
+	 }
 }
