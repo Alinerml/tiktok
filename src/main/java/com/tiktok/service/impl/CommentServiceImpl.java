@@ -21,6 +21,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -114,10 +115,12 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         VideoComment videoComment = new VideoComment();
         MPJLambdaWrapper<VideoComment> wrapper = new MPJLambdaWrapper<VideoComment>()
                 .eq(VideoComment::getVideoId,videoId);
-        List<VideoComment> commentIds = videoCommentMapper.selectJoinList(VideoComment.class, wrapper);
-
+        List<VideoComment> videoComments = videoCommentMapper.selectJoinList(VideoComment.class, wrapper);
+        List<String> commentIdList = videoComments.stream()
+                    .map(VideoComment::getCommentId)
+                    .collect(Collectors.toList());
         //comment_ids去查出对应的List<Comment>
-        List<Comment> comments = this.listByIds(commentIds);
+        List<Comment> comments = this.listByIds(commentIdList);
         return comments;
     }
 }
