@@ -2,7 +2,9 @@ package com.tiktok.service.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.tiktok.bean.Video;
+import com.tiktok.bean.dto.FavoriteListDto;
 import com.tiktok.bean.dto.FeedDto;
+import com.tiktok.bean.dto.FavoriteActionDto;
 import com.tiktok.bean.dto.VideoDto;
 import com.tiktok.bean.vo.FeedVo;
 import com.tiktok.mapper.VideoMapper;
@@ -17,7 +19,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.math.BigInteger;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -90,6 +91,41 @@ public class VideoServiceImpl extends ServiceImpl<VideoMapper, Video> implements
         MPJLambdaWrapper<Video> wrapper = new MPJLambdaWrapper<Video>()
                 .selectAll(Video.class)
                 .eq(Video::getAuthorId,user_id);
+        List<Video> videos = videoMapper.selectJoinList(Video.class, wrapper);
+
+        return videos;
+    }
+
+    @Override
+    public void action(FavoriteActionDto favoriteActionDto) {
+        //改个video_id 的is_favorite
+        String token = favoriteActionDto.getToken();
+        //1.token操作
+
+
+        String videoId = favoriteActionDto.getVideo_id();
+        String actionType = favoriteActionDto.getAction_type();
+
+        Video video = this.getById(videoId);
+        //2.直接取反不就好了
+        video.setIsFavorite(!video.getIsFavorite());
+        //修改favorite_count数量
+        if (actionType.equals("1")) video.setFavoriteCount(video.getFavoriteCount()+1);
+        if (actionType.equals("2")) video.setFavoriteCount(video.getFavoriteCount()-1);
+
+        this.updateById(video);
+    }
+
+    @Override
+    public List<Video> like(FavoriteListDto favoriteListDto) {
+        String token = favoriteListDto.getToken();
+        //token鉴权
+
+        String userId = favoriteListDto.getUser_id();
+        MPJLambdaWrapper<Video> wrapper = new MPJLambdaWrapper<Video>()
+                .selectAll(Video.class)
+                .eq(Video::getAuthorId,userId)
+                .eq(Video::getIsFavorite,true);
         List<Video> videos = videoMapper.selectJoinList(Video.class, wrapper);
 
         return videos;

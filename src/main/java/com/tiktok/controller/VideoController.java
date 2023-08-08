@@ -1,16 +1,11 @@
 package com.tiktok.controller;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
+import com.tiktok.bean.dto.FavoriteListDto;
 import com.tiktok.bean.Video;
+import com.tiktok.bean.dto.FavoriteActionDto;
 import com.tiktok.bean.dto.VideoDto;
 import com.tiktok.common.api.vo.Result;
 import com.tiktok.service.IVideoService;
@@ -18,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -30,7 +24,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @Api(tags="video")
 @RestController
-@RequestMapping("/publish")
+@RequestMapping("")
 @Slf4j
 public class VideoController {
 	@Autowired
@@ -42,7 +36,7 @@ public class VideoController {
 	  * @return
 	  */
 	 @ApiOperation(value="视频投稿", notes="视频投稿")
-	 @PostMapping(value = "/action")
+	 @PostMapping(value = "/publish/action")
 	 public Result<String> action(@RequestBody VideoDto videoDto) throws IOException, ClassNotFoundException {
 		 videoService.action(videoDto);
 		 return Result.OK("投递成功！");
@@ -53,17 +47,44 @@ public class VideoController {
 	  */
 	 @ApiOperation(value="测试-视频添加", notes="测试-视频添加")
 //	@RequiresPermissions("goods:goods_goods:add")
-	 @PostMapping(value = "/add")
+	 @PostMapping(value = "/publish/add")
 	 public Result<String> add(@RequestBody Video video) {
 		 videoService.save(video);
 		 return Result.OK("添加成功！");
 	 }
 
+	 /**
+	  * 发布列表
+	  * @param user_id
+	  * @return
+	  */
 	 @ApiOperation(value="发布列表", notes="发布列表")
-	 @GetMapping(value = "/list")
+	 @GetMapping(value = "/publish/list")
 	 public Result queryList(@RequestParam(name="user_id",required=true) String user_id) {
 		 List<Video> videos = videoService.queryList(user_id);
 		 return Result.OK("查询成功！",videos);
+	 }
+
+	 /**
+	  * 赞操作
+	  * @return
+	  */
+	 @ApiOperation(value="赞操作", notes="赞操作")
+	 @PostMapping(value = "/favorite/action")
+	 public Result action(@RequestBody FavoriteActionDto favoriteActionDto) {
+		 videoService.action(favoriteActionDto);
+		 return Result.OK("操作成功！");
+	 }
+
+	 /**
+	  * 喜欢列表
+	  * @return
+	  */
+	 @ApiOperation(value="喜欢列表", notes="喜欢列表")
+	 @PostMapping(value = "/favorite/list")
+	 public Result like(@RequestBody FavoriteListDto favoriteListDto) {
+		 List<Video> videos = videoService.like(favoriteListDto);
+		 return Result.OK("操作成功！",videos);
 	 }
 
 }

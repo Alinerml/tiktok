@@ -60,7 +60,7 @@ public class Video implements Serializable {
     private Integer commentCount;
 	/**1-已点赞 0-未点赞*/
     @ApiModelProperty(value = "1-已点赞 0-未点赞")
-    private Integer isFavorite;
+    private Boolean isFavorite;
 	/**视频标题*/
     @ApiModelProperty(value = "视频标题")
     private String title;

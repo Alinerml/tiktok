@@ -13,6 +13,7 @@ import com.tiktok.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> implements IUserInfoService {
     @Autowired
@@ -84,11 +85,15 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         String userInfoId = userInfo.getId();
 
         String md5Hex = DigestUtil.md5Hex(DtoPassword + SALT);
+
+//        currentUser = userInfo; //设置为全局对象，方便其他模块获取当前用户信息
+
         if (md5Hex.equals(userInfoPassword)) {
             return userInfoId;
         } else {
             throw new TiktokException("输入密码错误，请再试一次！");
         }
+
 
     }
 }
