@@ -75,7 +75,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         //保证默认值
         user.setFollowCount(0);
         user.setFollowerCount(0);
-        user.setIsFollow(0);
+        user.setIsFollow(false);
         user.setAvatar(null);
         user.setBackgroundImage(null);
         user.setSignature("简短的介绍一下自己吧~");
@@ -144,6 +144,9 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
             //保存token到userinfo表
             userInfo.setToken(generateToken);
+            //*id也要再修改，登录新生成的token，导致token解析出的id和原注册的不同
+            String userIdFromToken = JwtUtil.getUserIdFromToken(generateToken);
+            userInfo.setId(userIdFromToken);
             userInfoMapper.updateById(userInfo);
 
             return userLoginVo;

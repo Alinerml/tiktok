@@ -52,7 +52,7 @@ public class User implements Serializable {
     private Integer followerCount;
 	/**1-已关注 0-未关注*/
     @ApiModelProperty(value = "1-已关注 0-未关注")
-    private Integer isFollow;
+    private Boolean isFollow;
 	/**用户头像*/
     @ApiModelProperty(value = "用户头像")
     private String avatar;
