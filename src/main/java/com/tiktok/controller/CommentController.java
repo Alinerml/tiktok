@@ -1,9 +1,7 @@
 package com.tiktok.controller;
 
 import com.tiktok.bean.Comment;
-import com.tiktok.bean.Video;
 import com.tiktok.bean.dto.CommentDto;
-import com.tiktok.bean.dto.FavoriteListDto;
 import com.tiktok.bean.dto.VideoCommentsDto;
 import com.tiktok.common.api.vo.Result;
 import com.tiktok.service.ICommentService;

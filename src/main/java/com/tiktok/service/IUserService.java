@@ -2,6 +2,7 @@ package com.tiktok.service;
 
 import com.tiktok.bean.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.tiktok.bean.dto.UserIdAndTokenDto;
 
 /**
  * @Description: user
@@ -11,4 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserService extends IService<User> {
 
+    User queryById(UserIdAndTokenDto userIdAndTokenDto);
 }

@@ -2,7 +2,7 @@ package com.tiktok.service.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.tiktok.bean.Video;
-import com.tiktok.bean.dto.FavoriteListDto;
+import com.tiktok.bean.dto.UserIdAndTokenDto;
 import com.tiktok.bean.dto.FeedDto;
 import com.tiktok.bean.dto.FavoriteActionDto;
 import com.tiktok.bean.dto.VideoDto;
@@ -38,21 +38,24 @@ public class VideoServiceImpl extends ServiceImpl<VideoMapper, Video> implements
     @Override
     public void action(VideoDto videoDto) throws IOException, ClassNotFoundException {
         //鉴权token
+        String token = videoDto.getToken();
+        if (JwtUtil.validateToken(token)) {
+            //读取data转为Video -对应自测文件objectToByte-解码失败，问问前端会给怎么样的data
+            try {
+                byte[] data = videoDto.getData();
+                ByteArrayInputStream bi = new ByteArrayInputStream(data);
+                ObjectInputStream oi = new ObjectInputStream(bi);
+                Video video = (Video) oi.readObject();
+                bi.close();
+                oi.close();
 
-        //读取data转为Video -对应自测文件objectToByte-解码失败，问问前端会给怎么样的data
-        try {
-            byte[] data = videoDto.getData();
-            ByteArrayInputStream bi = new ByteArrayInputStream(data);
-            ObjectInputStream oi = new ObjectInputStream(bi);
-            Video video = (Video)oi.readObject();
-            bi.close();
-            oi.close();
-
-            this.save(video);
-        } catch (Exception e) {
-            e.printStackTrace();
+                this.save(video);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new TiktokException(ExceptionEnum.TOKEN_FAIL);
         }
-
     }
 
     @Override
@@ -60,7 +63,7 @@ public class VideoServiceImpl extends ServiceImpl<VideoMapper, Video> implements
         //鉴权token
         String token = feedDto.getToken();
         boolean validateToken = JwtUtil.validateToken(token);
-        if (validateToken == true){
+        if (validateToken == true) {
             //以latest_time 去查询 video_list 和 next_time -单次最多30个video
             BigInteger latest_time = feedDto.getLatest_time();
 
@@ -68,8 +71,8 @@ public class VideoServiceImpl extends ServiceImpl<VideoMapper, Video> implements
             MPJLambdaWrapper<Video> wrapper = new MPJLambdaWrapper<Video>()
                     .selectAll(Video.class)
                     //gt表示查找所有大于latest_time的对象，因为2024>2023，等同于查找所有发布时间早的
-                    .gt(Video::getCreateTime,latest_time);
-            List<Video> videos = videoMapper.selectJoinList(Video.class,wrapper);
+                    .gt(Video::getCreateTime, latest_time);
+            List<Video> videos = videoMapper.selectJoinList(Video.class, wrapper);
 
             //2.再限制30个
             List<Video> filteredVideos;
@@ -96,19 +99,26 @@ public class VideoServiceImpl extends ServiceImpl<VideoMapper, Video> implements
     }
 
     @Override
-    public List<Video> queryList(String user_id) {
-        //列出用户所有投稿过的视频
-        //1.去video中查该id下全部对象
-        MPJLambdaWrapper<Video> wrapper = new MPJLambdaWrapper<Video>()
-                .selectAll(Video.class)
-                .eq(Video::getAuthorId,user_id);
-        List<Video> videos = videoMapper.selectJoinList(Video.class, wrapper);
+    public List<Video> queryList(UserIdAndTokenDto userIdAndTokenDto) {
+        String token = userIdAndTokenDto.getToken();
+        String userId = userIdAndTokenDto.getUser_id();
+        if (JwtUtil.validateToken(token)) {
+            //列出用户所有投稿过的视频
+            //1.去video中查该id下全部对象
+            MPJLambdaWrapper<Video> wrapper = new MPJLambdaWrapper<Video>()
+                    .selectAll(Video.class)
+                    .eq(Video::getAuthorId, userId);
+            List<Video> videos = videoMapper.selectJoinList(Video.class, wrapper);
 
-        return videos;
+            return videos;
+        } else {
+            throw new TiktokException(ExceptionEnum.TOKEN_FAIL);
+        }
     }
 
+
     @Override
-    public void action(FavoriteActionDto favoriteActionDto) {
+    public void favAction(FavoriteActionDto favoriteActionDto) {
         //改个video_id 的is_favorite
         String token = favoriteActionDto.getToken();
         //1.token操作
@@ -121,24 +131,25 @@ public class VideoServiceImpl extends ServiceImpl<VideoMapper, Video> implements
         //2.直接取反不就好了
         video.setIsFavorite(!video.getIsFavorite());
         //修改favorite_count数量
-        if (actionType.equals("1")) video.setFavoriteCount(video.getFavoriteCount()+1);
-        if (actionType.equals("2")) video.setFavoriteCount(video.getFavoriteCount()-1);
+        if (actionType.equals("1")) video.setFavoriteCount(video.getFavoriteCount() + 1);
+        if (actionType.equals("2")) video.setFavoriteCount(video.getFavoriteCount() - 1);
 
         this.updateById(video);
     }
 
     @Override
-    public List<Video> like(FavoriteListDto favoriteListDto) {
-        String token = favoriteListDto.getToken();
+    public List<Video> like(UserIdAndTokenDto userIdAndTokenDto) {
+        String token = userIdAndTokenDto.getToken();
         //token鉴权
 
-        String userId = favoriteListDto.getUser_id();
+        String userId = userIdAndTokenDto.getUser_id();
         MPJLambdaWrapper<Video> wrapper = new MPJLambdaWrapper<Video>()
                 .selectAll(Video.class)
-                .eq(Video::getAuthorId,userId)
-                .eq(Video::getIsFavorite,true);
+                .eq(Video::getAuthorId, userId)
+                .eq(Video::getIsFavorite, true);
         List<Video> videos = videoMapper.selectJoinList(Video.class, wrapper);
 
         return videos;
     }
 }
+

@@ -2,7 +2,7 @@ package com.tiktok.service;
 
 import com.tiktok.bean.Video;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.tiktok.bean.dto.FavoriteListDto;
+import com.tiktok.bean.dto.UserIdAndTokenDto;
 import com.tiktok.bean.dto.FeedDto;
 import com.tiktok.bean.dto.FavoriteActionDto;
 import com.tiktok.bean.dto.VideoDto;
@@ -31,9 +31,9 @@ public interface IVideoService extends IService<Video> {
      */
     FeedVo feed(FeedDto feedDto);
 
-    List<Video> queryList(String user_id);
+    List<Video> queryList(UserIdAndTokenDto userIdAndTokenDto);
 
-    void action(FavoriteActionDto favoriteActionDto);
+    void favAction(FavoriteActionDto favoriteActionDto);
 
-    List<Video> like(FavoriteListDto favoriteListDto);
+    List<Video> like(UserIdAndTokenDto userIdAndTokenDto);
 }

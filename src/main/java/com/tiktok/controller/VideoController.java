@@ -3,7 +3,7 @@ package com.tiktok.controller;
 import java.util.List;
 import java.io.IOException;
 
-import com.tiktok.bean.dto.FavoriteListDto;
+import com.tiktok.bean.dto.UserIdAndTokenDto;
 import com.tiktok.bean.Video;
 import com.tiktok.bean.dto.FavoriteActionDto;
 import com.tiktok.bean.dto.VideoDto;
@@ -60,8 +60,8 @@ public class VideoController {
 	  */
 	 @ApiOperation(value="发布列表", notes="发布列表")
 	 @GetMapping(value = "/publish/list")
-	 public Result queryList(@RequestParam(name="user_id",required=true) String user_id) {
-		 List<Video> videos = videoService.queryList(user_id);
+	 public Result queryList(@RequestBody UserIdAndTokenDto userIdAndTokenDto) {
+		 List<Video> videos = videoService.queryList(userIdAndTokenDto);
 		 return Result.OK("查询成功！",videos);
 	 }
 
@@ -72,7 +72,7 @@ public class VideoController {
 	 @ApiOperation(value="赞操作", notes="赞操作")
 	 @PostMapping(value = "/favorite/action")
 	 public Result action(@RequestBody FavoriteActionDto favoriteActionDto) {
-		 videoService.action(favoriteActionDto);
+		 videoService.favAction(favoriteActionDto);
 		 return Result.OK("操作成功！");
 	 }
 
@@ -82,8 +82,8 @@ public class VideoController {
 	  */
 	 @ApiOperation(value="喜欢列表", notes="喜欢列表")
 	 @PostMapping(value = "/favorite/list")
-	 public Result like(@RequestBody FavoriteListDto favoriteListDto) {
-		 List<Video> videos = videoService.like(favoriteListDto);
+	 public Result like(@RequestBody UserIdAndTokenDto userIdAndTokenDto) {
+		 List<Video> videos = videoService.like(userIdAndTokenDto);
 		 return Result.OK("操作成功！",videos);
 	 }
 

@@ -2,11 +2,9 @@ package com.tiktok.service.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.tiktok.bean.Comment;
-import com.tiktok.bean.UserInfo;
 import com.tiktok.bean.Video;
 import com.tiktok.bean.VideoComment;
 import com.tiktok.bean.dto.CommentDto;
-import com.tiktok.bean.dto.FavoriteListDto;
 import com.tiktok.bean.dto.VideoCommentsDto;
 import com.tiktok.mapper.CommentMapper;
 import com.tiktok.mapper.VideoCommentMapper;

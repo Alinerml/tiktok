@@ -2,6 +2,7 @@ package com.tiktok.controller;
 
 import com.tiktok.bean.User;
 import com.tiktok.bean.Video;
+import com.tiktok.bean.dto.UserIdAndTokenDto;
 import com.tiktok.bean.dto.UserInfoDto;
 import com.tiktok.bean.vo.UserLoginVo;
 import com.tiktok.common.api.vo.Result;
@@ -33,8 +34,8 @@ public class UserController {
 
 	 @ApiOperation(value="用户信息", notes="用户信息")
 	 @GetMapping()
-	 public Result<User> queryById(@RequestParam(name="user_id ",required=true) String user_id) {
-		 User user = userService.getById(user_id);
+	 public Result<User> queryById(@RequestBody UserIdAndTokenDto userIdAndTokenDto) {
+		 User user = userService.queryById(userIdAndTokenDto);
 		 if(user==null) {
 			 return Result.error("未找到对应数据");
 

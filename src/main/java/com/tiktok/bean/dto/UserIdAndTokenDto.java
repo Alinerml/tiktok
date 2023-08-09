@@ -5,8 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(value="FavoriteListDto", description="FavoriteListDto")
-public class FavoriteListDto {
+@ApiModel(value="UserIdAndTokenDto", description="UserIdAndTokenDto")
+public class UserIdAndTokenDto {
     /**token*/
     @ApiModelProperty(value = "token")
     private String token;

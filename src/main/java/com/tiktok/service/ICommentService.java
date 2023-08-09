@@ -2,9 +2,7 @@ package com.tiktok.service;
 
 import com.tiktok.bean.Comment;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.tiktok.bean.Video;
 import com.tiktok.bean.dto.CommentDto;
-import com.tiktok.bean.dto.FavoriteListDto;
 import com.tiktok.bean.dto.VideoCommentsDto;
 
 import java.util.List;
