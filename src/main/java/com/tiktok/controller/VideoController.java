@@ -55,7 +55,6 @@ public class VideoController {
 
 	 /**
 	  * 发布列表
-	  * @param user_id
 	  * @return
 	  */
 	 @ApiOperation(value="发布列表", notes="发布列表")

@@ -120,36 +120,43 @@ public class VideoServiceImpl extends ServiceImpl<VideoMapper, Video> implements
     @Override
     public void favAction(FavoriteActionDto favoriteActionDto) {
         //改个video_id 的is_favorite
-        String token = favoriteActionDto.getToken();
         //1.token操作
+        String token = favoriteActionDto.getToken();
+        if (JwtUtil.validateToken(token)) {
+            String videoId = favoriteActionDto.getVideo_id();
+            String actionType = favoriteActionDto.getAction_type();
 
+            Video video = this.getById(videoId);
+            //2.直接取反不就好了
+            video.setIsFavorite(!video.getIsFavorite());
+            //修改favorite_count数量
+            if (actionType.equals("1")) video.setFavoriteCount(video.getFavoriteCount() + 1);
+            if (actionType.equals("2")) video.setFavoriteCount(video.getFavoriteCount() - 1);
 
-        String videoId = favoriteActionDto.getVideo_id();
-        String actionType = favoriteActionDto.getAction_type();
-
-        Video video = this.getById(videoId);
-        //2.直接取反不就好了
-        video.setIsFavorite(!video.getIsFavorite());
-        //修改favorite_count数量
-        if (actionType.equals("1")) video.setFavoriteCount(video.getFavoriteCount() + 1);
-        if (actionType.equals("2")) video.setFavoriteCount(video.getFavoriteCount() - 1);
-
-        this.updateById(video);
+            this.updateById(video);
+        } else {
+            throw new TiktokException(ExceptionEnum.TOKEN_FAIL);
+        }
     }
 
     @Override
     public List<Video> like(UserIdAndTokenDto userIdAndTokenDto) {
-        String token = userIdAndTokenDto.getToken();
+
         //token鉴权
+        String token = userIdAndTokenDto.getToken();
+        if (JwtUtil.validateToken(token)) {
 
-        String userId = userIdAndTokenDto.getUser_id();
-        MPJLambdaWrapper<Video> wrapper = new MPJLambdaWrapper<Video>()
-                .selectAll(Video.class)
-                .eq(Video::getAuthorId, userId)
-                .eq(Video::getIsFavorite, true);
-        List<Video> videos = videoMapper.selectJoinList(Video.class, wrapper);
+            String userId = userIdAndTokenDto.getUser_id();
+            MPJLambdaWrapper<Video> wrapper = new MPJLambdaWrapper<Video>()
+                    .selectAll(Video.class)
+                    .eq(Video::getAuthorId, userId)
+                    .eq(Video::getIsFavorite, true);
+            List<Video> videos = videoMapper.selectJoinList(Video.class, wrapper);
 
-        return videos;
+            return videos;
+        } else {
+            throw new TiktokException(ExceptionEnum.TOKEN_FAIL);
+        }
     }
 }
 
