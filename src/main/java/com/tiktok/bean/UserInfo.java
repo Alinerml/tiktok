@@ -36,4 +36,8 @@ public class UserInfo {
     /**密码*/
     @ApiModelProperty(value = "密码")
     private String password;
+
+    /**密码*/
+    @ApiModelProperty(value = "token")
+    private String token;
 }

@@ -1,9 +1,15 @@
 package com.tiktok.common.exception;
 
+import com.tiktok.common.contants.enums.ExceptionEnum;
+
 public class TiktokException extends RuntimeException{
 
     public TiktokException(String message){
         super(message);
+    }
+
+    public TiktokException(ExceptionEnum exceptionEnum){
+        super(exceptionEnum.getValue());
     }
 
     public TiktokException(Throwable cause)

@@ -3,6 +3,7 @@ package com.tiktok.controller;
 import com.tiktok.bean.User;
 import com.tiktok.bean.Video;
 import com.tiktok.bean.dto.UserInfoDto;
+import com.tiktok.bean.vo.UserLoginVo;
 import com.tiktok.common.api.vo.Result;
 import com.tiktok.service.IUserInfoService;
 import com.tiktok.service.IUserService;
@@ -58,9 +59,10 @@ public class UserController {
 	 @ApiOperation(value="用户注册", notes="用户注册")
 //	@RequiresPermissions("goods:goods_goods:add")
 	 @PostMapping(value = "/register")
-	 public Result<String> register(@RequestBody UserInfoDto userInfoDto) {
-		 String id = userInfoService.register(userInfoDto);
-		 return Result.OK("注册成功！",id);
+	 public Result register(@RequestBody UserInfoDto userInfoDto) {
+		 UserLoginVo userLoginVo = userInfoService.register(userInfoDto);
+
+		 return Result.OK("注册成功！",userLoginVo);
 	 }
 
 	 /**
@@ -69,8 +71,9 @@ public class UserController {
 	 @ApiOperation(value="用户注册", notes="用户注册")
 //	@RequiresPermissions("goods:goods_goods:add")
 	 @PostMapping(value = "/login")
-	 public Result<String> login(@RequestBody UserInfoDto userInfoDto) {
-		 String id = userInfoService.login(userInfoDto);
-		 return Result.OK("登录成功！",id);
+	 public Result login(@RequestBody UserInfoDto userInfoDto) {
+		 UserLoginVo userLoginVo = userInfoService.login(userInfoDto);
+
+		 return Result.OK("登录成功！",userLoginVo);
 	 }
 }

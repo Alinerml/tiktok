@@ -1,7 +1,6 @@
 package com.tiktok;
 
 import com.tiktok.bean.Video;
-import com.tiktok.common.utils.JwtUtil;
 import com.tiktok.common.utils.UrlUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,8 +29,8 @@ class TiktokDomApplicationTests {
      */
     @Test
     void createToken() {
-        String token = JwtUtil.create();
-        System.out.println(token);
+//        String token = JwtUtil.create();
+//        System.out.println(token);
     }
 
     @Test
