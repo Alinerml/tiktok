@@ -31,4 +31,6 @@ public interface IUserService extends IService<User> {
     List<User> followList(UserIdAndTokenDto userIdAndTokenDto);
 
     List<User> followerList(UserIdAndTokenDto userIdAndTokenDto);
+
+    User queryByName(String name);
 }

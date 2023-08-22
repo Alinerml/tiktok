@@ -8,6 +8,7 @@ import com.tiktok.bean.dto.CommentDto;
 import com.tiktok.bean.dto.VideoCommentsDto;
 import com.tiktok.common.contants.enums.ExceptionEnum;
 import com.tiktok.common.exception.TiktokException;
+import com.tiktok.common.utils.DateUtils;
 import com.tiktok.common.utils.JwtUtil;
 import com.tiktok.mapper.CommentMapper;
 import com.tiktok.mapper.VideoCommentMapper;
@@ -52,7 +53,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             String commentId = commentDto.getComment_id();
 
             //获取当前日期
-            int createTime = getCurrentDate();
+            String createTime = DateUtils.getCurrentDate();
 
             Video video = videoService.getById(videoId);
             //发布评论 -新增+返回+video中数量+ + 视频评论中间表的新增
@@ -88,26 +89,6 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         }
     }
 
-    /**
-     * 获取当前日期，格式 mm-dd
-     * @return
-     */
-    public static int getCurrentDate() {
-        // 创建 SimpleDateFormat 对象，指定日期格式为 "MMdd"
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMdd");
-
-        // 获取当前时间
-        Date currentDate = new Date();
-
-        // 使用 SimpleDateFormat 格式化日期
-        String formattedDate = dateFormat.format(currentDate);
-
-        // 将格式化后的日期转换为 int 类型
-        int intDate = Integer.parseInt(formattedDate);
-
-        // 返回 int 类型的日期
-        return intDate;
-    }
 
     @Override
     public List<Comment> videoComments(VideoCommentsDto videoCommentsDto) {

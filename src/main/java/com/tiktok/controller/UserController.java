@@ -77,4 +77,16 @@ public class UserController {
 
 		 return Result.OK("登录成功！",userLoginVo);
 	 }
+
+
+	 /**
+	  * @description:  修改
+	  */
+	 @ApiOperation(value="测试-用户user修改", notes="测试-用户修改")
+//	@RequiresPermissions("goods:goods_goods:add")
+	 @PostMapping(value = "/edit")
+	 public Result<String> edit(@RequestBody User user) {
+		 userService.updateById(user);
+		 return Result.OK("修改成功！");
+	 }
 }

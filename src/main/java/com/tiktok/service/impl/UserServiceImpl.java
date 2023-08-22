@@ -1,6 +1,8 @@
 package com.tiktok.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import com.tiktok.bean.FriendUser;
 import com.tiktok.bean.User;
 import com.tiktok.bean.UserFollow;
 import com.tiktok.bean.dto.RelationActionDto;
@@ -10,8 +12,10 @@ import com.tiktok.common.exception.TiktokException;
 import com.tiktok.common.utils.JwtUtil;
 import com.tiktok.mapper.UserFollowMapper;
 import com.tiktok.mapper.UserMapper;
+import com.tiktok.service.IFriendUserService;
 import com.tiktok.service.IUserFollowService;
 import com.tiktok.service.IUserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +39,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Autowired
     IUserFollowService userFollowService;
+    @Autowired
+    IFriendUserService friendUserService;
     
 
     @Override
@@ -54,25 +60,38 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public void action(RelationActionDto relationActionDto) {
         String token = relationActionDto.getToken();
-        String toUserId = relationActionDto.getTo_user_id();
+        String userId = JwtUtil.getUserIdFromToken(token); //当前用户id
+        String toUserId = relationActionDto.getTo_user_id(); //对方用户id
         String actionType = relationActionDto.getAction_type();
         if (JwtUtil.validateToken(token)) {
-            User user = this.getById(toUserId);
-//            user.setIsFollow(!user.getIsFollow()); //直接取反 -不够精确
+            User user = this.getById(userId);
+            User toUser = this.getById(toUserId);
 
-            String userId = JwtUtil.getUserIdFromToken(token);
-            if (actionType.equals("1")){
-                user.setIsFollow(true);
-                user.setFollowCount(user.getFollowCount()+1);
+            if (actionType.equals("1")){ //关注
+                //当前用户的一些操作
+                user.setFollowCount(user.getFollowCount()+1); //关注数量+1
+
+                //对方用户的一些操作
+                toUser.setIsFollow(true);
+                toUser.setFollowCount(toUser.getFollowerCount()+1);//粉丝数量+1
                 //新增UserFollow
                 UserFollow userFollow = new UserFollow();
                 userFollow.setUserId(userId);
                 userFollow.setFollowUserId(toUserId);
                 userFollowService.save(userFollow);
+
+                //新增FriendUser -信息字段暂滞空
+                FriendUser friendUser = new FriendUser();
+                BeanUtils.copyProperties(toUser,friendUser);
+                friendUserService.save(friendUser);
             }
-            if (actionType.equals("2")){
-                user.setIsFollow(false);
-                user.setFollowCount(user.getFollowCount()-1);
+            if (actionType.equals("2")){ //取消关注
+                //当前用户的一些操作
+                user.setFollowCount(user.getFollowCount()-1); //关注数量+1
+
+                //对方用户的一些操作
+                toUser.setIsFollow(false);
+                toUser.setFollowCount(toUser.getFollowerCount()-1);//粉丝数量-1
                 //删除UserFollow
                 MPJLambdaWrapper<UserFollow> wrapper = new MPJLambdaWrapper<UserFollow>()
                         .selectAll(UserFollow.class)
@@ -80,9 +99,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                         .eq(UserFollow::getUserId,userId);
                 UserFollow userFollow = userFollowMapper.selectJoinOne(UserFollow.class, wrapper);
                 userFollowService.removeById(userFollow);
+                //删除FriendUser
+                FriendUser friendUser = friendUserService.getById(toUserId);
+                friendUserService.removeById(friendUser);
             }
+            this.updateById(toUser);
             this.updateById(user);
-
 
         } else {
             throw new TiktokException(ExceptionEnum.TOKEN_FAIL);
@@ -133,5 +155,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new TiktokException(ExceptionEnum.TOKEN_FAIL);
         }
 
+    }
+
+    @Override
+    public User queryByName(String name){
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<User>()
+                .eq(User::getName,name);
+        User user = userMapper.selectOne(wrapper);
+        return user;
     }
 }

@@ -3,6 +3,8 @@ package com.tiktok.service;
 import com.tiktok.bean.UserFollow;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * @Description: user_follow
  * @Author: jeecg-boot
@@ -11,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserFollowService extends IService<UserFollow> {
 
+    List<String> queryFollowUserIds(String userId);
 }
