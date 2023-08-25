@@ -44,6 +44,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     public Comment comment(CommentDto commentDto) {
         //自动获取登录用户信息 -解析token获得...
         String token = commentDto.getToken();
+        String userIdFromToken = JwtUtil.getUserIdFromToken(token);
         if (JwtUtil.validateToken(token)) {
 
 
@@ -62,7 +63,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 videoService.updateById(video);
 
                 Comment comment = new Comment();
-                comment.setUserId("1"); //待修改...
+                comment.setUserId(userIdFromToken);
                 comment.setContent(commentText);
                 comment.setCreateTime(createTime);
                 this.save(comment);

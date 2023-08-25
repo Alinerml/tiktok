@@ -15,7 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 
- /**
+import java.util.HashMap;
+import java.util.Map;
+
+/**
  * @Description: user
  * @Author: jeecg-boot
  * @Date:   2023-08-03
@@ -77,6 +80,14 @@ public class UserController {
 
 		 return Result.OK("登录成功！",userLoginVo);
 	 }
+
+	@CrossOrigin
+	@GetMapping(value = "/logout")
+	@ResponseBody
+	public Result logout(@RequestBody UserIdAndTokenDto userIdAndTokenDto){
+		userInfoService.logout(userIdAndTokenDto);
+		return Result.OK("退出登录！");
+	}
 
 
 	 /**

@@ -27,7 +27,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @Api(tags="video_comment")
 @RestController
-@RequestMapping("/org/videoComment")
+@RequestMapping("/videoComment")
 @Slf4j
 public class VideoCommentController {
 	@Autowired

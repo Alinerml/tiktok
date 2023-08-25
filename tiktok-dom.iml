@@ -21,7 +21,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
-          <factory-entry name="tiktok-dom" />
+          <factory-entry name="tiktok-dom" value="6fe93555-80e1-4e02-911c-6438946dbae6" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>
@@ -38,6 +38,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-pool2:2.11.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-redis:2.7.10" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.7.10" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.7.10" level="project" />
@@ -54,7 +55,6 @@
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:2.7.10" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.3.26" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-oxm:5.3.26" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.26" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context-support:5.3.26" level="project" />
     <orderEntry type="library" name="Maven: io.lettuce:lettuce-core:6.1.10.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-common:4.1.90.Final" level="project" />
@@ -176,5 +176,11 @@
     <orderEntry type="library" name="Maven: org.glassfish.jaxb:txw2:2.3.8" level="project" />
     <orderEntry type="library" name="Maven: com.sun.istack:istack-commons-runtime:3.0.12" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: com.sun.activation:jakarta.activation:1.2.2" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-security:2.7.10" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.26" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:5.7.7" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:5.7.7" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:5.7.7" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:5.7.7" level="project" />
   </component>
 </module>

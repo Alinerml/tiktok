@@ -48,7 +48,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         //鉴权token
         String token = userIdAndTokenDto.getToken();
         String userId = userIdAndTokenDto.getUser_id();
-        if (JwtUtil.validateToken(token)) { //err猜测：SECRET_KEY一开始是可变的 -ok
+        if (JwtUtil.validateToken(token)) {
             //查询user并且返回
             User user = this.getById(userId);
             return user;
