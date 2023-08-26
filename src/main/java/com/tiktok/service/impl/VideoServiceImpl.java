@@ -63,7 +63,7 @@ public class VideoServiceImpl extends ServiceImpl<VideoMapper, Video> implements
         //鉴权token
         String token = feedDto.getToken();
         boolean validateToken = JwtUtil.validateToken(token);
-        if (validateToken == true) {
+        if (validateToken) {
             //以latest_time 去查询 video_list 和 next_time -单次最多30个video
             BigInteger latest_time = feedDto.getLatest_time();
 

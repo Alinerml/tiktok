@@ -182,5 +182,9 @@
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:5.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:5.7.7" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:5.7.7" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-websocket:2.7.10" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-messaging:5.3.26" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-websocket:5.3.26" level="project" />
+    <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.83" level="project" />
   </component>
 </module>
