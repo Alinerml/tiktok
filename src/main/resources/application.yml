@@ -23,6 +23,11 @@ spring:
     password: 250088
     url: jdbc:mysql://localhost:3306/tiktok?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
   redis:
+    channel:
+      msgToAll: websocket.msgToAll
+      userStatus: websocket.userStatus
+    set:
+      onlineUsers: websocket.onlineUsers
     host: 127.0.0.1
     port: 6379
     database:

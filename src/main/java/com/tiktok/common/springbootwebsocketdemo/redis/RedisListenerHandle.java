@@ -6,6 +6,7 @@ import com.tiktok.common.springbootwebsocketdemo.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -21,16 +22,17 @@ public class RedisListenerHandle extends MessageListenerAdapter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisListenerHandle.class);
 
-    @Value("${redis.channel.msgToAll}")
+    @Value("${spring.redis.channel.msgToAll}")
     private String msgToAll;
 
-    @Value("${redis.channel.userStatus}")
+    @Value("${spring.redis.channel.userStatus}")
     private String userStatus;
 
     @Value("${server.port}")
     private String serverPort;
 
     @Autowired
+    @Qualifier("redisTemplate0")//因为security的项目中有两个redis库
     private RedisTemplate<String, String> redisTemplate;
 
     @Autowired
