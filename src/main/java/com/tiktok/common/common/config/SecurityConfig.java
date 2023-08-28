@@ -34,8 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 //允许指定路径的请求不进行身份验证
-//                .antMatchers("/**")
-                .antMatchers("/swagger-ui.html","/swagger-resources/**","/webjars/**","/v2/**","/api/**")
+                .antMatchers("/**")
                 .permitAll()
                 //允许指定路径的请求不进行身份验证
                 .anyRequest().authenticated();
