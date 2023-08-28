@@ -4,7 +4,7 @@ import com.tiktok.bean.FriendUser;
 import com.tiktok.bean.User;
 import com.tiktok.bean.dto.RelationActionDto;
 import com.tiktok.bean.dto.UserIdAndTokenDto;
-import com.tiktok.common.api.vo.Result;
+import com.tiktok.common.common.api.vo.Result;
 import com.tiktok.service.IFriendUserService;
 import com.tiktok.service.IUserService;
 import io.swagger.annotations.Api;

@@ -1,10 +1,8 @@
 package com.tiktok.controller;
 
-import com.tiktok.bean.Video;
 import com.tiktok.bean.dto.FeedDto;
-import com.tiktok.bean.dto.VideoDto;
 import com.tiktok.bean.vo.FeedVo;
-import com.tiktok.common.api.vo.Result;
+import com.tiktok.common.common.api.vo.Result;
 import com.tiktok.service.IUserService;
 import com.tiktok.service.IVideoService;
 import io.swagger.annotations.Api;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.List;
 
 @Api(tags="feed")
 @RestController

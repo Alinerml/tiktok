@@ -1,7 +1,7 @@
 package com.tiktok;
 
 import com.tiktok.bean.Video;
-import com.tiktok.common.utils.UrlUtil;
+import com.tiktok.common.common.utils.UrlUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

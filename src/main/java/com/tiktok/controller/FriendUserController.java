@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @Api(tags="friend_user")
 @RestController
-@RequestMapping("/org/friendUser")
+@RequestMapping("/friendUser")
 @Slf4j
 public class FriendUserController {
 	@Autowired

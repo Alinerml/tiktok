@@ -1,6 +1,6 @@
 package com.tiktok.common;
 
-import com.tiktok.common.contants.ResponseConstants;
+import com.tiktok.common.common.contants.ResponseConstants;
 import lombok.Data;
 
 import java.util.HashMap;

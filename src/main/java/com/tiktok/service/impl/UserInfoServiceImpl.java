@@ -1,9 +1,7 @@
 package com.tiktok.service.impl;
 
-import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.tiktok.bean.FriendUser;
 import com.tiktok.bean.Message;
 import com.tiktok.bean.User;
@@ -11,9 +9,9 @@ import com.tiktok.bean.UserInfo;
 import com.tiktok.bean.dto.UserIdAndTokenDto;
 import com.tiktok.bean.dto.UserInfoDto;
 import com.tiktok.bean.vo.UserLoginVo;
-import com.tiktok.common.exception.TiktokException;
-import com.tiktok.common.utils.JwtUtil;
-import com.tiktok.common.utils.RedisUtil_db0;
+import com.tiktok.common.common.exception.TiktokException;
+import com.tiktok.common.common.utils.JwtUtil;
+import com.tiktok.common.common.utils.RedisUtil_db0;
 import com.tiktok.mapper.FriendUserMapper;
 import com.tiktok.mapper.MessageMapper;
 import com.tiktok.mapper.UserInfoMapper;

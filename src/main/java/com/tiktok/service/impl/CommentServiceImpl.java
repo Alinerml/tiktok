@@ -6,10 +6,12 @@ import com.tiktok.bean.Video;
 import com.tiktok.bean.VideoComment;
 import com.tiktok.bean.dto.CommentDto;
 import com.tiktok.bean.dto.VideoCommentsDto;
-import com.tiktok.common.contants.enums.ExceptionEnum;
-import com.tiktok.common.exception.TiktokException;
-import com.tiktok.common.utils.DateUtils;
-import com.tiktok.common.utils.JwtUtil;
+import com.tiktok.common.common.contants.enums.ExceptionEnum;
+import com.tiktok.common.common.exception.TiktokException;
+import com.tiktok.common.common.utils.DateUtils;
+import com.tiktok.common.common.utils.JwtUtil;
+import com.tiktok.common.rabbitmq.CommentConsumer;
+import com.tiktok.common.rabbitmq.CommentProducer;
 import com.tiktok.mapper.CommentMapper;
 import com.tiktok.mapper.VideoCommentMapper;
 import com.tiktok.service.ICommentService;
@@ -20,8 +22,6 @@ import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,14 +40,20 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     IVideoCommentService videoCommentService;
     @Autowired
     VideoCommentMapper videoCommentMapper;
+
+    @Autowired
+    private CommentProducer commentProducer;
+
     @Override
     public Comment comment(CommentDto commentDto) {
         //自动获取登录用户信息 -解析token获得...
         String token = commentDto.getToken();
         String userIdFromToken = JwtUtil.getUserIdFromToken(token);
-        if (JwtUtil.validateToken(token)) {
+        if (!JwtUtil.validateToken(token)) {
+            throw new TiktokException(ExceptionEnum.TOKEN_FAIL);
+        }
 
-
+        try {
             String videoId = commentDto.getVideo_id();
             Integer actionType = commentDto.getAction_type();
             String commentText = commentDto.getComment_text();
@@ -57,7 +63,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             String createTime = DateUtils.getCurrentDate();
 
             Video video = videoService.getById(videoId);
-            //发布评论 -新增+返回+video中数量+ + 视频评论中间表的新增
+            //发布评论 -修改video中数量+新增comment表+新增videoCommentService+返回comment对象
             if (actionType == 1) {
                 video.setCommentCount(video.getCommentCount() + 1);
                 videoService.updateById(video);
@@ -66,28 +72,28 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 comment.setUserId(userIdFromToken);
                 comment.setContent(commentText);
                 comment.setCreateTime(createTime);
-                this.save(comment);
+//                this.save(comment);
+                commentProducer.saveProducer(comment);
 
                 //中间表的新增
                 VideoComment videoComment = new VideoComment();
                 videoComment.setCommentId(commentId);
                 videoComment.setVideoId(videoId);
                 videoCommentService.save(videoComment);
-
                 return comment;
             }
-
-            //删除评论 -删除+修改video中总数-
+            //删除评论 -删除comment表记录+修改video中数量+返回空
             if (actionType == 2) {
                 this.removeById(commentId);
                 video.setCommentCount(video.getCommentCount() - 1);
                 videoService.updateById(video);
                 return null;
             }
-            return null;
-        } else {
-            throw new TiktokException(ExceptionEnum.TOKEN_FAIL);
+        } catch (Exception e) {
+            throw new TiktokException(e);
         }
+
+        return null;
     }
 
 

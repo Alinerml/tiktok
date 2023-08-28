@@ -7,7 +7,7 @@ import com.tiktok.bean.dto.UserIdAndTokenDto;
 import com.tiktok.bean.Video;
 import com.tiktok.bean.dto.FavoriteActionDto;
 import com.tiktok.bean.dto.VideoDto;
-import com.tiktok.common.api.vo.Result;
+import com.tiktok.common.common.api.vo.Result;
 import com.tiktok.service.IVideoService;
 import lombok.extern.slf4j.Slf4j;
 

@@ -2,11 +2,10 @@ package com.tiktok.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tiktok.bean.FriendUser;
-import com.tiktok.bean.User;
 import com.tiktok.bean.dto.UserIdAndTokenDto;
-import com.tiktok.common.contants.enums.ExceptionEnum;
-import com.tiktok.common.exception.TiktokException;
-import com.tiktok.common.utils.JwtUtil;
+import com.tiktok.common.common.contants.enums.ExceptionEnum;
+import com.tiktok.common.common.exception.TiktokException;
+import com.tiktok.common.common.utils.JwtUtil;
 import com.tiktok.mapper.FriendUserMapper;
 import com.tiktok.service.IFriendUserService;
 import org.springframework.beans.factory.annotation.Autowired;

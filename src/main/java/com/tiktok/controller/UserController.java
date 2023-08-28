@@ -1,11 +1,10 @@
 package com.tiktok.controller;
 
 import com.tiktok.bean.User;
-import com.tiktok.bean.Video;
 import com.tiktok.bean.dto.UserIdAndTokenDto;
 import com.tiktok.bean.dto.UserInfoDto;
 import com.tiktok.bean.vo.UserLoginVo;
-import com.tiktok.common.api.vo.Result;
+import com.tiktok.common.common.api.vo.Result;
 import com.tiktok.service.IUserInfoService;
 import com.tiktok.service.IUserService;
 import io.swagger.annotations.ApiOperation;
@@ -14,9 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @Description: user
