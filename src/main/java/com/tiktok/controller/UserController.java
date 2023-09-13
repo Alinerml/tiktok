@@ -79,6 +79,7 @@ public class UserController {
 
 	@CrossOrigin
 	@GetMapping(value = "/logout")
+	@ApiOperation(value="退出登录", notes="退出登录")
 	@ResponseBody
 	public Result logout(@RequestBody UserIdAndTokenDto userIdAndTokenDto){
 		userInfoService.logout(userIdAndTokenDto);

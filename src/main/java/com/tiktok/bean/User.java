@@ -71,4 +71,7 @@ public class User implements Serializable {
 	/**点赞数量*/
     @ApiModelProperty(value = "点赞数量")
     private Integer favoriteCount;
+    /**角色*/
+    @ApiModelProperty(value = "角色")
+    private String role;
 }

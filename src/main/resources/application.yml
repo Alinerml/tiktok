@@ -46,11 +46,12 @@ spring:
       db0: 0
       db1: 1
     timeout: 3000
-    pool:
-      max-active: 100
-      max-idle: 3
-      min-idle: 0
-      max-wait: -1
+    lettuce:
+      pool:
+        max-active: 100
+        max-idle: 3
+        min-idle: 0
+        max-wait: -1
     password:
   rabbitmq:
     host: 127.0.0.1
@@ -70,5 +71,29 @@ spring:
           multiplier: 2
           initial-interval: 3000
           max-interval: 16000
-swagger:
-  enabled: true
+  swagger:
+    enabled: true
+  kafka:
+    properties:
+      auto.create.topics.enable: true
+    consumer:
+      bootstrap-servers: localhost:9092
+      auto-offset-reset: earliest
+    producer:
+      bootstrap-servers: localhost:9092
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+#  mail:
+#    protocol: smtps
+#    properties:
+#      mail:
+#        smtp:
+#          ssl:
+#            enable: true
+#    host: smtp.qq.com
+#    port: 465
+#    username: 952060132@qq.com
+#    password: Lu2008dan
+kafka:
+  topic:
+    my-topic: my-topic
+    my-topic2: my-topic2

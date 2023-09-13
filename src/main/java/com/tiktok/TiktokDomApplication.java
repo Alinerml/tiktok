@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-@EnableWebMvc //启用基于Java的Web应用程序中的Spring MVC
+//@EnableWebMvc //启用基于Java的Web应用程序中的Spring MVC
 public class TiktokDomApplication {
     private static final Logger log = LoggerFactory.getLogger(com.tiktok.common.springbootwebsocketdemo.util.JsonUtil.class);
 
