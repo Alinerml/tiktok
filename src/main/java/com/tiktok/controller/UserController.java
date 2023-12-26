@@ -59,7 +59,7 @@ public class UserController {
 	 @ApiOperation(value="用户注册", notes="用户注册")
 //	@RequiresPermissions("goods:goods_goods:add")
 	 @PostMapping(value = "/register")
-	 public Result register(@RequestBody UserInfoDto userInfoDto) {
+	 public Result register( UserInfoDto userInfoDto) {
 		 UserLoginVo userLoginVo = userInfoService.register(userInfoDto);
 
 		 return Result.OK("注册成功！",userLoginVo);
@@ -68,7 +68,7 @@ public class UserController {
 	 /**
 	  * @description:  用户登录
 	  */
-	 @ApiOperation(value="用户注册", notes="用户注册")
+	 @ApiOperation(value="用户登录", notes="用户登录")
 //	@RequiresPermissions("goods:goods_goods:add")
 	 @PostMapping(value = "/login")
 	 public Result login(@RequestBody UserInfoDto userInfoDto) {

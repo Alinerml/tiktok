@@ -1,7 +1,6 @@
 package com.tiktok.service.impl;
 
 import com.tiktok.bean.StationMessage;
-import com.tiktok.common.common.utils.SensitiveFilter;
 import com.tiktok.mapper.StationMessageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +14,6 @@ public class StationMessageService {
     @Autowired
     private StationMessageMapper messageMapper;
 
-    @Autowired
-    private SensitiveFilter sensitiveFilter;
 
     public List<StationMessage> findConversations(int userId, int offset, int limit) {
         return messageMapper.selectConversations(userId, offset, limit);
@@ -40,7 +37,6 @@ public class StationMessageService {
 
     public int addMessage(StationMessage message) {
         message.setContent(HtmlUtils.htmlEscape(message.getContent()));
-        message.setContent(sensitiveFilter.filter(message.getContent()));
         return messageMapper.insertMessage(message);
     }
 

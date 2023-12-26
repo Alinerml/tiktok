@@ -10,8 +10,6 @@ import com.tiktok.common.common.contants.enums.ExceptionEnum;
 import com.tiktok.common.common.exception.TiktokException;
 import com.tiktok.common.common.utils.DateUtils;
 import com.tiktok.common.common.utils.JwtUtil;
-import com.tiktok.common.rabbitmq.CommentConsumer;
-import com.tiktok.common.rabbitmq.CommentProducer;
 import com.tiktok.mapper.CommentMapper;
 import com.tiktok.mapper.VideoCommentMapper;
 import com.tiktok.service.ICommentService;
@@ -41,8 +39,6 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Autowired
     VideoCommentMapper videoCommentMapper;
 
-    @Autowired
-    private CommentProducer commentProducer;
 
     @Override
     public Comment comment(CommentDto commentDto) {
@@ -73,7 +69,6 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 comment.setContent(commentText);
                 comment.setCreateTime(createTime);
 //                this.save(comment);
-                commentProducer.saveProducer(comment);
 
                 //中间表的新增
                 VideoComment videoComment = new VideoComment();

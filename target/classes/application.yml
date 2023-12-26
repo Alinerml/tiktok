@@ -32,15 +32,15 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 250088
-    url: jdbc:mysql://localhost:3306/tiktok?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    password: 123456
+    url: jdbc:mysql://localhost:3306/minigo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
   redis:
     channel:
       msgToAll: websocket.msgToAll
       userStatus: websocket.userStatus
     set:
       onlineUsers: websocket.onlineUsers
-    host: 127.0.0.1
+    host: 10.16.43.244
     port: 6379
     database:
       db0: 0
@@ -52,25 +52,25 @@ spring:
         max-idle: 3
         min-idle: 0
         max-wait: -1
-    password:
-  rabbitmq:
-    host: 127.0.0.1
-    port: 5672
-    username: guest
-    password: guest
-    virtual-host: /
-    publisher-confirm-type: correlated
-    listener:
-      simple:
-        concurrency: 2
-        max-concurrency: 4
-        prefetch: 1
-        retry:
-          enabled: true
-          max-attempts: 3
-          multiplier: 2
-          initial-interval: 3000
-          max-interval: 16000
+    password: valtec@2402
+#  rabbitmq:
+#    host: 127.0.0.1
+#    port: 5672
+#    username: guest
+#    password: guest
+#    virtual-host: /
+#    publisher-confirm-type: correlated
+#    listener:
+#      simple:
+#        concurrency: 2
+#        max-concurrency: 4
+#        prefetch: 1
+#        retry:
+#          enabled: true
+#          max-attempts: 3
+#          multiplier: 2
+#          initial-interval: 3000
+#          max-interval: 16000
   swagger:
     enabled: true
   kafka:
